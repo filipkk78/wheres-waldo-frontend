@@ -6,7 +6,9 @@ function App() {
   return (
     <div className={styles.wrapper}>
       <Header></Header>
-      <main className={styles.main}></main>
+      <main className={styles.main}>
+        <img src="src/img/placeholder.jpg" alt="" />
+      </main>
       <Footer></Footer>
     </div>
   );
