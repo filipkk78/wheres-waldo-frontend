@@ -5,16 +5,6 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
-.main {
-  padding-block: 2em;
-  padding-left: clamp(1em, 16em, 3em);
-  padding-right: clamp(1em, 16em, 3em);
-  background-color: #212122;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-}
-
 a {
   text-decoration: none;
 }
@@ -23,12 +13,16 @@ a:hover {
   text-decoration: underline;
 }
 
-.menuWrapper {
-  height: 100px;
-  width: 100px;
+.menuCircle {
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
   border: 2px solid rgb(255, 255, 255);
   z-index: 1;
   position: absolute;
   background-color: rgba(0, 0, 0, 50%);
+}
+
+.mainImage {
+  width: 100%;
 }
