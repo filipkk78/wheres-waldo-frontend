@@ -7,7 +7,19 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [menuX, setMenuX] = useState(null);
   const [menuY, setMenuY] = useState(null);
+  const [isMenuOnRight, setIsMenuOnRight] = useState(false);
   const imageRef = useRef(null);
+
+  const menuStylesLeft = {
+    top: menuY - 25,
+    left: menuX - 25,
+  };
+
+  const menuStylesRight = {
+    top: menuY - 25,
+    left: menuX - 115,
+    flexDirection: "row-reverse",
+  };
 
   function toggleIsOpen() {
     if (isOpen) {
@@ -29,6 +41,14 @@ function App() {
         ).toFixed(2)}`
       );
     }
+    const menuLocation = e.pageX / imageRef.current.clientWidth;
+    console.log(menuLocation);
+    if (menuLocation > 0.7) {
+      console.log(true);
+      setIsMenuOnRight(true);
+    } else {
+      setIsMenuOnRight(false);
+    }
   }
 
   return (
@@ -44,10 +64,15 @@ function App() {
         />
         {isOpen && (
           <div
-            className={styles.menuCircle}
-            style={{ top: menuY - 25, left: menuX - 25 }}
+            className={styles.charMenu}
+            style={!isMenuOnRight ? menuStylesLeft : menuStylesRight}
           >
-            {" "}
+            <div className={styles.menuCircle}></div>
+            <ul className={styles.charList}>
+              <li>Brian</li>
+              <li>Wilson</li>
+              <li>Neo</li>
+            </ul>
           </div>
         )}
       </main>

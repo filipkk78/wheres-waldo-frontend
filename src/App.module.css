@@ -18,11 +18,30 @@ a:hover {
   width: 50px;
   border-radius: 50%;
   border: 2px solid rgb(255, 255, 255);
-  z-index: 1;
-  position: absolute;
   background-color: rgba(0, 0, 0, 50%);
 }
 
 .mainImage {
   width: 100%;
+}
+
+.charMenu {
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.charList {
+  background-color: rgb(22, 22, 22);
+  list-style: none;
+  padding-inline-start: 0;
+  padding: 0.7em;
+  border-radius: 20px;
+}
+
+.charList li:nth-child(2) {
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
 }
