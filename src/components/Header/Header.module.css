@@ -30,3 +30,13 @@
   align-items: center;
   gap: 1em;
 }
+
+@media (max-width: 700px) {
+  .charName {
+    display: none;
+  }
+  .characters img {
+    width: 32px;
+    height: 32px;
+  }
+}

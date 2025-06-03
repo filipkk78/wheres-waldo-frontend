@@ -8,15 +8,17 @@ function App() {
   const [menuX, setMenuX] = useState(null);
   const [menuY, setMenuY] = useState(null);
   const [isMenuOnRight, setIsMenuOnRight] = useState(false);
+  const [isMenuNearBottom, setIsMenuNearBottom] = useState(false);
   const imageRef = useRef(null);
+  const charListRef = useRef(null);
 
   const menuStylesLeft = {
-    top: menuY,
+    ...(isMenuNearBottom ? { top: menuY - 250 } : { top: menuY }),
     left: menuX + 25,
   };
 
   const menuStylesRight = {
-    top: menuY,
+    ...(isMenuNearBottom ? { top: menuY - 250 } : { top: menuY }),
     left: menuX - 175,
   };
 
@@ -30,21 +32,32 @@ function App() {
   }
 
   function handleMenu(e) {
+    const imageRect = e.target.getBoundingClientRect();
     setMenuX(e.pageX);
     setMenuY(e.pageY);
     toggleIsOpen();
+    const pickedX =
+      ((imageRect.left - e.clientX) / e.target.getBoundingClientRect().width) *
+      -1;
+    const pickedY =
+      ((imageRect.top - e.clientY) / e.target.getBoundingClientRect().height) *
+      -1;
+
     if (!isOpen) {
-      console.log(
-        `X: ${(e.pageX / imageRef.current.clientWidth).toFixed(2)}, Y: ${(
-          e.pageY / imageRef.current.clientHeight
-        ).toFixed(2)}`
-      );
+      console.log(`X: ${pickedX.toFixed(2)}, Y: ${pickedY.toFixed(2)}`);
     }
-    const menuLocation = e.pageX / imageRef.current.clientWidth;
-    if (menuLocation > 0.7) {
+    const menuLocationX = e.pageX / imageRef.current.clientWidth;
+    if (menuLocationX > 0.5) {
       setIsMenuOnRight(true);
     } else {
       setIsMenuOnRight(false);
+    }
+    const menuLocationY = e.pageY / imageRef.current.clientHeight;
+
+    if (menuLocationY > 0.9) {
+      setIsMenuNearBottom(true);
+    } else {
+      setIsMenuNearBottom(false);
     }
   }
 
@@ -63,6 +76,7 @@ function App() {
           <ul
             className={styles.charList}
             style={!isMenuOnRight ? menuStylesLeft : menuStylesRight}
+            ref={charListRef}
           >
             <li>
               <img src="src/img/brian.jpg" alt="" />

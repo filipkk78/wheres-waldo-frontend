@@ -6,15 +6,15 @@ function Header() {
       <h2>Img Tagger</h2>
       <ul className={styles.characters}>
         <li>
-          Brian
+          <span className={styles.charName}>Brian</span>
           <img src="src/img/brian.jpg" alt="" />
         </li>
         <li>
-          Wilson
+          <span className={styles.charName}>Wilson</span>
           <img src="src/img/wilson.jpg" alt="" />
         </li>
         <li>
-          Neo
+          <span className={styles.charName}>Neo</span>
           <img src="src/img/neo.jpg" alt="" />
         </li>
       </ul>

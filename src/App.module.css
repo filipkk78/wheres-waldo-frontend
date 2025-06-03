@@ -39,3 +39,13 @@ a:hover {
 .charList li img {
   border-radius: 10px;
 }
+
+.charListBottom {
+  top: 200px;
+}
+
+@media (max-width: 700px) {
+  .charName {
+    display: hidden;
+  }
+}
