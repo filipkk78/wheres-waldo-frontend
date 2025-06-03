@@ -11,14 +11,13 @@ function App() {
   const imageRef = useRef(null);
 
   const menuStylesLeft = {
-    top: menuY - 25,
-    left: menuX - 25,
+    top: menuY,
+    left: menuX + 25,
   };
 
   const menuStylesRight = {
-    top: menuY - 25,
-    left: menuX - 115,
-    flexDirection: "row-reverse",
+    top: menuY,
+    left: menuX - 175,
   };
 
   function toggleIsOpen() {
@@ -42,9 +41,7 @@ function App() {
       );
     }
     const menuLocation = e.pageX / imageRef.current.clientWidth;
-    console.log(menuLocation);
     if (menuLocation > 0.7) {
-      console.log(true);
       setIsMenuOnRight(true);
     } else {
       setIsMenuOnRight(false);
@@ -63,17 +60,23 @@ function App() {
           ref={imageRef}
         />
         {isOpen && (
-          <div
-            className={styles.charMenu}
+          <ul
+            className={styles.charList}
             style={!isMenuOnRight ? menuStylesLeft : menuStylesRight}
           >
-            <div className={styles.menuCircle}></div>
-            <ul className={styles.charList}>
-              <li>Brian</li>
-              <li>Wilson</li>
-              <li>Neo</li>
-            </ul>
-          </div>
+            <li>
+              <img src="src/img/brian.jpg" alt="" />
+              <span>Brian</span>
+            </li>
+            <li>
+              <img src="src/img/wilson.jpg" alt="" />
+              <span>Wilson</span>
+            </li>
+            <li>
+              <img src="src/img/neo.jpg" alt="" />
+              <span>Neo</span>
+            </li>
+          </ul>
         )}
       </main>
       <Footer></Footer>
