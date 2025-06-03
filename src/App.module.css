@@ -30,7 +30,9 @@ a:hover {
   gap: 1em;
 }
 
-.charList li {
+.charList li button {
+  background-color: transparent;
+  border: none;
   display: flex;
   align-items: center;
   gap: 1em;

@@ -9,21 +9,28 @@ function App() {
   const [menuY, setMenuY] = useState(null);
   const [isMenuOnRight, setIsMenuOnRight] = useState(false);
   const [isMenuNearBottom, setIsMenuNearBottom] = useState(false);
+  const imageRef = useRef(null);
   const [characters, setCharacters] = useState([
     {
+      id: 1,
       name: "Brian",
       imageUrl: "src/img/brian.jpg",
     },
     {
+      id: 2,
       name: "Wilson",
       imageUrl: "src/img/wilson.jpg",
     },
     {
+      id: 3,
       name: "Neo",
       imageUrl: "src/img/neo.jpg",
     },
   ]);
-  const imageRef = useRef(null);
+
+  function removeChar(charId) {
+    setCharacters(characters.filter((ch) => ch.id !== charId));
+  }
 
   const menuStyles = {
     ...(isMenuNearBottom ? { top: menuY - 250 } : { top: menuY }),
@@ -72,8 +79,10 @@ function App() {
   const listItems = characters.map((char) => (
     <li>
       {" "}
-      <img src={char.imageUrl} alt={char.name} />
-      <span>{char.name}</span>
+      <button onClick={() => removeChar(char.id)}>
+        <img src={char.imageUrl} alt={char.name} />
+        <span>{char.name}</span>
+      </button>
     </li>
   ));
 
