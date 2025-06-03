@@ -4,7 +4,7 @@ function Header({ characters }) {
   const listItems = characters.map((char) => (
     <li>
       {" "}
-      <span>{char.name}</span>
+      <span className={styles.charName}>{char.name}</span>
       <img src={char.imageUrl} alt={char.name} />
     </li>
   ));
