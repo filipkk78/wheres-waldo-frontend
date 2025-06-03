@@ -23,17 +23,11 @@ function App() {
       imageUrl: "src/img/neo.jpg",
     },
   ]);
-  console.log(characters);
   const imageRef = useRef(null);
 
-  const menuStylesLeft = {
+  const menuStyles = {
     ...(isMenuNearBottom ? { top: menuY - 250 } : { top: menuY }),
-    left: menuX + 25,
-  };
-
-  const menuStylesRight = {
-    ...(isMenuNearBottom ? { top: menuY - 250 } : { top: menuY }),
-    left: menuX - 175,
+    ...(!isMenuOnRight ? { left: menuX + 25 } : { left: menuX - 175 }),
   };
 
   function toggleIsOpen() {
@@ -95,10 +89,7 @@ function App() {
           ref={imageRef}
         />
         {isOpen && (
-          <ul
-            className={styles.charList}
-            style={!isMenuOnRight ? menuStylesLeft : menuStylesRight}
-          >
+          <ul className={styles.charList} style={menuStyles}>
             {listItems}
           </ul>
         )}
