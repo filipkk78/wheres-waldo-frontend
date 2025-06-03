@@ -9,8 +9,22 @@ function App() {
   const [menuY, setMenuY] = useState(null);
   const [isMenuOnRight, setIsMenuOnRight] = useState(false);
   const [isMenuNearBottom, setIsMenuNearBottom] = useState(false);
+  const [characters, setCharacters] = useState([
+    {
+      name: "Brian",
+      imageUrl: "src/img/brian.jpg",
+    },
+    {
+      name: "Wilson",
+      imageUrl: "src/img/wilson.jpg",
+    },
+    {
+      name: "Neo",
+      imageUrl: "src/img/neo.jpg",
+    },
+  ]);
+  console.log(characters);
   const imageRef = useRef(null);
-  const charListRef = useRef(null);
 
   const menuStylesLeft = {
     ...(isMenuNearBottom ? { top: menuY - 250 } : { top: menuY }),
@@ -61,9 +75,17 @@ function App() {
     }
   }
 
+  const listItems = characters.map((char) => (
+    <li>
+      {" "}
+      <img src={char.imageUrl} alt={char.name} />
+      <span>{char.name}</span>
+    </li>
+  ));
+
   return (
     <div className={styles.wrapper}>
-      <Header></Header>
+      <Header characters={characters}></Header>
       <main className={styles.main} onClick={handleMenu}>
         <img
           src="src/img/placeholder.jpg"
@@ -76,20 +98,8 @@ function App() {
           <ul
             className={styles.charList}
             style={!isMenuOnRight ? menuStylesLeft : menuStylesRight}
-            ref={charListRef}
           >
-            <li>
-              <img src="src/img/brian.jpg" alt="" />
-              <span>Brian</span>
-            </li>
-            <li>
-              <img src="src/img/wilson.jpg" alt="" />
-              <span>Wilson</span>
-            </li>
-            <li>
-              <img src="src/img/neo.jpg" alt="" />
-              <span>Neo</span>
-            </li>
+            {listItems}
           </ul>
         )}
       </main>
