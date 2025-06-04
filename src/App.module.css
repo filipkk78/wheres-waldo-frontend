@@ -46,6 +46,14 @@ a:hover {
   top: 200px;
 }
 
+.pin {
+  stroke: tomato;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 1;
+}
+
 @media (max-width: 700px) {
   .charName {
     display: hidden;

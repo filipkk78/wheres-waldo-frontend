@@ -2,6 +2,7 @@ import styles from "./App.module.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { useRef, useState } from "react";
+import { MapPinCheck } from "lucide-react";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +28,9 @@ function App() {
       imageUrl: "src/img/neo.jpg",
     },
   ]);
+  const [charOnePin, setCharOnePin] = useState(false);
+  const [charTwoPin, setCharTwoPin] = useState(false);
+  const [charThreePin, setCharThreePin] = useState(false);
 
   function removeChar(charId) {
     setCharacters(characters.filter((ch) => ch.id !== charId));
@@ -51,15 +55,19 @@ function App() {
     setMenuX(e.pageX);
     setMenuY(e.pageY);
     toggleIsOpen();
-    const pickedX =
+    const pickedX = Math.floor(
       ((imageRect.left - e.clientX) / e.target.getBoundingClientRect().width) *
-      -1;
-    const pickedY =
+        -1 *
+        100
+    );
+    const pickedY = Math.floor(
       ((imageRect.top - e.clientY) / e.target.getBoundingClientRect().height) *
-      -1;
+        -1 *
+        100
+    );
 
     if (!isOpen) {
-      console.log(`X: ${pickedX.toFixed(2)}, Y: ${pickedY.toFixed(2)}`);
+      console.log(`X: ${pickedX}, Y: ${pickedY}`);
     }
     const menuLocationX = e.pageX / imageRef.current.clientWidth;
     if (menuLocationX > 0.5) {
@@ -77,7 +85,7 @@ function App() {
   }
 
   const listItems = characters.map((char) => (
-    <li>
+    <li key={char.id}>
       {" "}
       <button onClick={() => removeChar(char.id)}>
         <img src={char.imageUrl} alt={char.name} />
@@ -102,8 +110,17 @@ function App() {
             {listItems}
           </ul>
         )}
+        {charOnePin && (
+          <MapPinCheck className={styles.pin} styles={charOnePin} />
+        )}
+        {charTwoPin && (
+          <MapPinCheck className={styles.pin} styles={charTwoPin} />
+        )}
+        {charThreePin && (
+          <MapPinCheck className={styles.pin} styles={charThreePin} />
+        )}
       </main>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 }
