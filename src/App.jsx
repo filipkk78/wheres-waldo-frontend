@@ -1,10 +1,9 @@
 import styles from "./App.module.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { MapPinCheck } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { div } from "motion/react-client";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +41,8 @@ function App() {
   const [showStartModal, setShowStartModal] = useState(true);
   const [username, setUsername] = useState("");
   const [pending, setPending] = useState(false);
+  const [timer, setTimer] = useState(false);
+  const [isGameWon, setIsGameWon] = useState(false);
 
   function removeChar(charName) {
     setCharacters(characters.filter((ch) => ch.name !== charName));
@@ -80,7 +81,6 @@ function App() {
     if (!isOpen) {
       setChosenX(pickedX);
       setChosenY(pickedY);
-      console.log(`X: ${pickedX}, Y: ${pickedY}`);
     }
     const menuLocationX = e.pageX / imageRef.current.clientWidth;
     if (menuLocationX > 0.5) {
@@ -115,7 +115,6 @@ function App() {
         return response.json();
       })
       .then((json) => {
-        console.log(json.result);
         if (json.result) {
           setError(false);
           setWrongCoords(false);
@@ -147,9 +146,8 @@ function App() {
           }, 8000);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setError(true);
-        console.log(error);
         setTimeout(() => {
           setError(false);
         }, 10000);
@@ -172,15 +170,30 @@ function App() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username }),
-    }).then(() => {
-      setPending(false);
-      setUsername("");
-      setShowStartModal(false);
-      setTimeout(() => {
-        setShowBackdrop(false);
-      }, 200);
-    });
+    })
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((res) => {
+        localStorage.setItem("sessionId", res.id);
+        setPending(false);
+        setUsername("");
+        setShowStartModal(false);
+        setTimeout(() => {
+          setShowBackdrop(false);
+        }, 200);
+        setTimer(true);
+      });
   }
+
+  useEffect(() => {
+    if (characters.length === 0) {
+      setIsGameWon(true);
+    }
+  }, [characters]);
 
   return (
     <>
@@ -255,14 +268,17 @@ function App() {
                 </form>
               </motion.div>
             )}
+            {/* {showFinishModal && (
+              
+            )} */}
           </AnimatePresence>
         </div>
       )}
       <div className={styles.wrapper}>
         <Header
           characters={characters}
-          error={error}
-          wrongCoords={wrongCoords}
+          timer={timer}
+          isGameWon={isGameWon}
         ></Header>
         <main className={styles.main} onClick={handleMenu}>
           <img
