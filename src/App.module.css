@@ -103,7 +103,7 @@ a:hover {
 }
 
 .startModal form input {
-  border: 3px solid rgb(255, 255, 255);
+  border: 3px solid rgb(77, 76, 76);
   border-radius: 5px;
   background-color: transparent;
   height: 2rem;
@@ -112,7 +112,7 @@ a:hover {
 }
 
 .startModal form button {
-  background-color: white;
+  background-color: transparent;
   border: 3px solid #6a5acd;
   border-radius: 5px;
   height: 2rem;
