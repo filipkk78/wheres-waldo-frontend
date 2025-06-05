@@ -3,6 +3,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { useRef, useState } from "react";
 import { MapPinCheck } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -156,10 +157,32 @@ function App() {
 
   return (
     <>
-      {wrongCoords && (
-        <div className={styles.errorMessage}>Wrong coordinates</div>
-      )}
-      {error && <div className={styles.errorMessage}>Server error</div>}
+      <AnimatePresence initial={false}>
+        {wrongCoords && (
+          <motion.div
+            className={styles.errorMessage}
+            initial={{ opacity: 0, scale: 0, x: "-50%" }}
+            animate={{ opacity: 1, scale: 1, x: "-50%" }}
+            exit={{ opacity: 0, scale: 0, x: "-50%" }}
+            key="wrong coords message"
+          >
+            Wrong coordinates
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
+        {error && (
+          <motion.div
+            className={styles.errorMessage}
+            initial={{ opacity: 0, scale: 0, x: "-50%" }}
+            animate={{ opacity: 1, scale: 1, x: "-50%" }}
+            exit={{ opacity: 0, scale: 0, x: "-50%" }}
+            key="server error message"
+          >
+            Server error
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className={styles.wrapper}>
         <Header
           characters={characters}
