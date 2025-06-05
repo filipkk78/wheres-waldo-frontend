@@ -167,6 +167,9 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (username.length < 3) {
+      return;
+    }
     setPending(true);
     fetch("http://localhost:5000/api/leaderboard", {
       method: "POST",
