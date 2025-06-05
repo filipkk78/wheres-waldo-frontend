@@ -39,12 +39,12 @@ function App() {
   const [neoPin, setNeoPin] = useState(false);
   const [correctChoice, setCorrectChoice] = useState(false);
   const [showBackdrop, setShowBackdrop] = useState(true);
-  const [showStartModal, setShowStartModal] = useState(false);
+  const [showStartModal, setShowStartModal] = useState(true);
   const [username, setUsername] = useState("");
   const [pending, setPending] = useState(false);
   const [timer, setTimer] = useState(false);
   const [isGameWon, setIsGameWon] = useState(false);
-  const [showFinishModal, setShowFinishModal] = useState(true);
+  const [showFinishModal, setShowFinishModal] = useState(false);
 
   function removeChar(charName) {
     setCharacters(characters.filter((ch) => ch.name !== charName));
@@ -257,9 +257,9 @@ function App() {
         {showBackdrop && (
           <motion.div
             className={styles.backdrop}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             key="backdrop"
           >
             {showStartModal && (
