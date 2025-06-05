@@ -1,0 +1,15 @@
+.circle {
+  stroke: white;
+  width: 5rem;
+  height: 5rem;
+  animation: spin infinite linear 2500ms;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

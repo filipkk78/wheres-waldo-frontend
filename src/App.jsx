@@ -4,6 +4,7 @@ import Footer from "./components/Footer/Footer";
 import { useRef, useState, useEffect } from "react";
 import { MapPinCheck } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import Leaderboard from "./components/Leaderboard/Leaderboard";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,12 +39,12 @@ function App() {
   const [neoPin, setNeoPin] = useState(false);
   const [correctChoice, setCorrectChoice] = useState(false);
   const [showBackdrop, setShowBackdrop] = useState(true);
-  const [showStartModal, setShowStartModal] = useState(true);
+  const [showStartModal, setShowStartModal] = useState(false);
   const [username, setUsername] = useState("");
   const [pending, setPending] = useState(false);
   const [timer, setTimer] = useState(false);
   const [isGameWon, setIsGameWon] = useState(false);
-  const [showFinishModal, setShowFinishModal] = useState(false);
+  const [showFinishModal, setShowFinishModal] = useState(true);
 
   function removeChar(charName) {
     setCharacters(characters.filter((ch) => ch.name !== charName));
@@ -183,9 +184,7 @@ function App() {
         setPending(false);
         setUsername("");
         setShowStartModal(false);
-        // setTimeout(() => {
         setShowBackdrop(false);
-        // }, 200);
         setTimer(res.startedAt);
       });
   }
@@ -286,8 +285,9 @@ function App() {
               </div>
             )}
             {showFinishModal && (
-              <div className={styles.startModal}>
+              <div className={styles.finishModal}>
                 <h2>Congratulations, you finished the game.</h2>
+                <Leaderboard></Leaderboard>
               </div>
             )}
           </motion.div>
