@@ -18,7 +18,7 @@ function Header({ characters, timer, isGameWon }) {
     let myInterval;
     if (timer && !isGameWon) {
       myInterval = setInterval(() => {
-        setTime(time + 1);
+        setTime((new Date() - new Date(timer)) / 1000);
       }, 1000);
       return () => clearInterval(myInterval);
     }

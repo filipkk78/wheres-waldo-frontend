@@ -43,6 +43,7 @@ function App() {
   const [pending, setPending] = useState(false);
   const [timer, setTimer] = useState(false);
   const [isGameWon, setIsGameWon] = useState(false);
+  const [showFinishModal, setShowFinishModal] = useState(false);
 
   function removeChar(charName) {
     setCharacters(characters.filter((ch) => ch.name !== charName));
@@ -182,16 +183,32 @@ function App() {
         setPending(false);
         setUsername("");
         setShowStartModal(false);
-        setTimeout(() => {
-          setShowBackdrop(false);
-        }, 200);
-        setTimer(true);
+        // setTimeout(() => {
+        setShowBackdrop(false);
+        // }, 200);
+        setTimer(res.startedAt);
       });
   }
 
   useEffect(() => {
     if (characters.length === 0) {
       setIsGameWon(true);
+      fetch("http://localhost:5000/api/leaderboard", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: localStorage.getItem("sessionId") }),
+      })
+        .then((response) => {
+          if (response.status >= 400) {
+            throw new Error("server error");
+          }
+          return response.json();
+        })
+        .then((res) => {
+          console.log(res);
+          setShowBackdrop(true);
+          setShowFinishModal(true);
+        });
     }
   }, [characters]);
 
@@ -237,17 +254,17 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
-      {showBackdrop && (
-        <div className={styles.backdrop}>
-          <AnimatePresence initial={false}>
+      <AnimatePresence>
+        {showBackdrop && (
+          <motion.div
+            className={styles.backdrop}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            key="backdrop"
+          >
             {showStartModal && (
-              <motion.div
-                className={styles.startModal}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0 }}
-                key="start game modal"
-              >
+              <div className={styles.startModal}>
                 <h2>
                   Your goal is to find the 3 characters shown in the header
                 </h2>
@@ -266,14 +283,16 @@ function App() {
                   {!pending && <button type="submit">Start</button>}
                   {pending && <button disabled>Pending...</button>}
                 </form>
-              </motion.div>
+              </div>
             )}
-            {/* {showFinishModal && (
-              
-            )} */}
-          </AnimatePresence>
-        </div>
-      )}
+            {showFinishModal && (
+              <div className={styles.startModal}>
+                <h2>Congratulations, you finished the game.</h2>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className={styles.wrapper}>
         <Header
           characters={characters}
