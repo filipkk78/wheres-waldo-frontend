@@ -5,6 +5,10 @@ import { useRef, useState, useEffect } from "react";
 import { MapPinCheck } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Leaderboard from "./components/Leaderboard/Leaderboard";
+import brianImage from "./img/brian.jpg";
+import wilsonImage from "./img/wilson.jpg";
+import neoImage from "./img/neo.jpg";
+import mainImage from "./img/placeholder.jpg";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,17 +25,17 @@ function App() {
     {
       id: 1,
       name: "Brian",
-      imageUrl: "src/img/brian.jpg",
+      imageUrl: brianImage,
     },
     {
       id: 2,
       name: "Wilson",
-      imageUrl: "src/img/wilson.jpg",
+      imageUrl: wilsonImage,
     },
     {
       id: 3,
       name: "Neo",
-      imageUrl: "src/img/neo.jpg",
+      imageUrl: neoImage,
     },
   ]);
   const [brianPin, setBrianPin] = useState(false);
@@ -306,8 +310,8 @@ function App() {
         ></Header>
         <main className={styles.main} onClick={handleMenu}>
           <img
-            src="src/img/placeholder.jpg"
-            alt=""
+            src={mainImage}
+            alt="Big isometric image depicting many characters"
             className={styles.mainImage}
             ref={imageRef}
           />
