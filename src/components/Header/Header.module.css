@@ -19,9 +19,13 @@
 }
 
 .characters img {
-  height: 100%;
-  width: 100%;
+  width: 3rem;
+  height: 3rem;
   border-radius: 10px;
+}
+
+.characters h2 {
+  font-size: 3rem;
 }
 
 .characters li {
@@ -36,7 +40,11 @@
     display: none;
   }
   .characters img {
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .characters h2 {
+    font-size: 1.5rem;
   }
 }
