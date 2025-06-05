@@ -44,7 +44,7 @@ function Leaderboard() {
         <tbody>
           {leaderboard.map((entry, i) => (
             <tr key={entry.id} className={styles.entry}>
-              <td data-cell="Rank">{i}</td>
+              <td data-cell="Rank">{i + 1}</td>
               <td data-cell="Name">{entry.username}</td>
               <td data-cell="Time">{entry.completionInterval}</td>
             </tr>
