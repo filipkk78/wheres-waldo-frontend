@@ -12,6 +12,8 @@ function App() {
   const [chosenY, setChosenY] = useState(null);
   const [isMenuOnRight, setIsMenuOnRight] = useState(false);
   const [isMenuNearBottom, setIsMenuNearBottom] = useState(false);
+  const [error, setError] = useState(false);
+  const [wrongCoords, setWrongCoords] = useState(false);
   const imageRef = useRef(null);
   const [characters, setCharacters] = useState([
     {
@@ -108,6 +110,8 @@ function App() {
       .then((json) => {
         console.log(json.result);
         if (json.result) {
+          setError(false);
+          setWrongCoords(false);
           removeChar(charName);
           const rem = parseFloat(
             getComputedStyle(document.documentElement).fontSize
@@ -116,7 +120,6 @@ function App() {
             left: menuX - 1.5 * rem,
             top: menuY - 3 * rem,
           };
-
           if (charName == "Wilson") {
             setWilsonPin(pinStyles);
           }
@@ -126,9 +129,20 @@ function App() {
           if (charName == "Neo") {
             setNeoPin(pinStyles);
           }
+        } else {
+          setWrongCoords(true);
+          setTimeout(() => {
+            setWrongCoords(false);
+          }, 8000);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setError(true);
+        console.log(error);
+        setTimeout(() => {
+          setError(false);
+        }, 10000);
+      });
   }
 
   const listItems = characters.map((char) => (
@@ -141,27 +155,39 @@ function App() {
   ));
 
   return (
-    <div className={styles.wrapper}>
-      <Header characters={characters}></Header>
-      <main className={styles.main} onClick={handleMenu}>
-        <img
-          src="src/img/placeholder.jpg"
-          alt=""
-          onClick={handleMenu}
-          className={styles.mainImage}
-          ref={imageRef}
-        />
-        {isOpen && (
-          <ul className={styles.charList} style={menuStyles}>
-            {listItems}
-          </ul>
-        )}
-        {brianPin && <MapPinCheck className={styles.pin} style={brianPin} />}
-        {wilsonPin && <MapPinCheck className={styles.pin} style={wilsonPin} />}
-        {neoPin && <MapPinCheck className={styles.pin} style={neoPin} />}
-      </main>
-      <Footer />
-    </div>
+    <>
+      {wrongCoords && (
+        <div className={styles.errorMessage}>Wrong coordinates</div>
+      )}
+      {error && <div className={styles.errorMessage}>Server error</div>}
+      <div className={styles.wrapper}>
+        <Header
+          characters={characters}
+          error={error}
+          wrongCoords={wrongCoords}
+        ></Header>
+        <main className={styles.main} onClick={handleMenu}>
+          <img
+            src="src/img/placeholder.jpg"
+            alt=""
+            onClick={handleMenu}
+            className={styles.mainImage}
+            ref={imageRef}
+          />
+          {isOpen && (
+            <ul className={styles.charList} style={menuStyles}>
+              {listItems}
+            </ul>
+          )}
+          {brianPin && <MapPinCheck className={styles.pin} style={brianPin} />}
+          {wilsonPin && (
+            <MapPinCheck className={styles.pin} style={wilsonPin} />
+          )}
+          {neoPin && <MapPinCheck className={styles.pin} style={neoPin} />}
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
 

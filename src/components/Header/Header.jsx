@@ -3,7 +3,6 @@ import styles from "./Header.module.css";
 function Header({ characters }) {
   const listItems = characters.map((char) => (
     <li key={char.id}>
-      {" "}
       <span className={styles.charName}>{char.name}</span>
       <img src={char.imageUrl} alt={char.name} />
     </li>
