@@ -51,7 +51,9 @@ function App() {
   }
 
   const menuStyles = {
-    ...(isMenuNearBottom ? { top: menuY - 250 } : { top: menuY }),
+    ...(isMenuNearBottom
+      ? { top: menuY - 83 * characters.length }
+      : { top: menuY }),
     ...(!isMenuOnRight ? { left: menuX + 25 } : { left: menuX - 175 }),
   };
 
