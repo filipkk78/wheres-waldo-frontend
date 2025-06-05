@@ -36,6 +36,7 @@ function App() {
   const [brianPin, setBrianPin] = useState(false);
   const [wilsonPin, setWilsonPin] = useState(false);
   const [neoPin, setNeoPin] = useState(false);
+  const [correctChoice, setCorrectChoice] = useState(false);
 
   function removeChar(charName) {
     setCharacters(characters.filter((ch) => ch.name !== charName));
@@ -113,6 +114,7 @@ function App() {
         if (json.result) {
           setError(false);
           setWrongCoords(false);
+          setCorrectChoice(true);
           removeChar(charName);
           const rem = parseFloat(
             getComputedStyle(document.documentElement).fontSize
@@ -130,6 +132,9 @@ function App() {
           if (charName == "Neo") {
             setNeoPin(pinStyles);
           }
+          setTimeout(() => {
+            setCorrectChoice(false);
+          }, 3000);
         } else {
           setWrongCoords(true);
           setTimeout(() => {
@@ -158,6 +163,20 @@ function App() {
   return (
     <>
       <AnimatePresence initial={false}>
+        {correctChoice && (
+          <motion.div
+            className={styles.errorMessage}
+            initial={{ opacity: 0, scale: 0, x: "-50%" }}
+            animate={{ opacity: 1, scale: 1, x: "-50%" }}
+            exit={{ opacity: 0, scale: 0, x: "-50%" }}
+            key="correct choice message"
+            style={{ backgroundColor: "#27d071" }}
+          >
+            Correct!
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
         {wrongCoords && (
           <motion.div
             className={styles.errorMessage}
@@ -166,7 +185,7 @@ function App() {
             exit={{ opacity: 0, scale: 0, x: "-50%" }}
             key="wrong coords message"
           >
-            Wrong coordinates
+            Wrong coordinates!
           </motion.div>
         )}
       </AnimatePresence>
@@ -179,7 +198,7 @@ function App() {
             exit={{ opacity: 0, scale: 0, x: "-50%" }}
             key="server error message"
           >
-            Server error
+            Server error!
           </motion.div>
         )}
       </AnimatePresence>
