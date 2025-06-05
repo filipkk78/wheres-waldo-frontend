@@ -8,6 +8,8 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [menuX, setMenuX] = useState(null);
   const [menuY, setMenuY] = useState(null);
+  const [chosenX, setChosenX] = useState(null);
+  const [chosenY, setChosenY] = useState(null);
   const [isMenuOnRight, setIsMenuOnRight] = useState(false);
   const [isMenuNearBottom, setIsMenuNearBottom] = useState(false);
   const imageRef = useRef(null);
@@ -28,12 +30,12 @@ function App() {
       imageUrl: "src/img/neo.jpg",
     },
   ]);
-  const [charOnePin, setCharOnePin] = useState(false);
-  const [charTwoPin, setCharTwoPin] = useState(false);
-  const [charThreePin, setCharThreePin] = useState(false);
+  const [brianPin, setBrianPin] = useState(false);
+  const [wilsonPin, setWilsonPin] = useState(false);
+  const [neoPin, setNeoPin] = useState(false);
 
-  function removeChar(charId) {
-    setCharacters(characters.filter((ch) => ch.id !== charId));
+  function removeChar(charName) {
+    setCharacters(characters.filter((ch) => ch.name !== charName));
   }
 
   const menuStyles = {
@@ -67,6 +69,8 @@ function App() {
     );
 
     if (!isOpen) {
+      setChosenX(pickedX);
+      setChosenY(pickedY);
       console.log(`X: ${pickedX}, Y: ${pickedY}`);
     }
     const menuLocationX = e.pageX / imageRef.current.clientWidth;
@@ -84,10 +88,52 @@ function App() {
     }
   }
 
+  function handleCharacter(charName) {
+    fetch("http://localhost:5000/api/character", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      mode: "cors",
+      body: JSON.stringify({
+        characterName: charName,
+        coordsX: chosenX,
+        coordsY: chosenY,
+      }),
+    })
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((json) => {
+        console.log(json.result);
+        if (json.result) {
+          removeChar(charName);
+          const rem = parseFloat(
+            getComputedStyle(document.documentElement).fontSize
+          );
+          const pinStyles = {
+            left: menuX - 1.5 * rem,
+            top: menuY - 3 * rem,
+          };
+
+          if (charName == "Wilson") {
+            setWilsonPin(pinStyles);
+          }
+          if (charName == "Brian") {
+            setBrianPin(pinStyles);
+          }
+          if (charName == "Neo") {
+            setNeoPin(pinStyles);
+          }
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+
   const listItems = characters.map((char) => (
     <li key={char.id}>
-      {" "}
-      <button onClick={() => removeChar(char.id)}>
+      <button onClick={() => handleCharacter(char.name)}>
         <img src={char.imageUrl} alt={char.name} />
         <span>{char.name}</span>
       </button>
@@ -110,15 +156,9 @@ function App() {
             {listItems}
           </ul>
         )}
-        {charOnePin && (
-          <MapPinCheck className={styles.pin} styles={charOnePin} />
-        )}
-        {charTwoPin && (
-          <MapPinCheck className={styles.pin} styles={charTwoPin} />
-        )}
-        {charThreePin && (
-          <MapPinCheck className={styles.pin} styles={charThreePin} />
-        )}
+        {brianPin && <MapPinCheck className={styles.pin} style={brianPin} />}
+        {wilsonPin && <MapPinCheck className={styles.pin} style={wilsonPin} />}
+        {neoPin && <MapPinCheck className={styles.pin} style={neoPin} />}
       </main>
       <Footer />
     </div>

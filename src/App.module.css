@@ -47,10 +47,10 @@ a:hover {
 }
 
 .pin {
-  stroke: tomato;
+  stroke: rgb(255, 38, 0);
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 3rem;
+  height: 3rem;
   z-index: 1;
 }
 
