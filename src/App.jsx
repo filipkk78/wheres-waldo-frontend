@@ -4,6 +4,7 @@ import Footer from "./components/Footer/Footer";
 import { useRef, useState } from "react";
 import { MapPinCheck } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { div } from "motion/react-client";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +38,10 @@ function App() {
   const [wilsonPin, setWilsonPin] = useState(false);
   const [neoPin, setNeoPin] = useState(false);
   const [correctChoice, setCorrectChoice] = useState(false);
+  const [showBackdrop, setShowBackdrop] = useState(true);
+  const [showStartModal, setShowStartModal] = useState(true);
+  const [username, setUsername] = useState("");
+  const [pending, setPending] = useState(false);
 
   function removeChar(charName) {
     setCharacters(characters.filter((ch) => ch.name !== charName));
@@ -160,6 +165,23 @@ function App() {
     </li>
   ));
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    setPending(true);
+    fetch("http://localhost:5000/api/leaderboard", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    }).then(() => {
+      setPending(false);
+      setUsername("");
+      setShowStartModal(false);
+      setTimeout(() => {
+        setShowBackdrop(false);
+      }, 200);
+    });
+  }
+
   return (
     <>
       <AnimatePresence initial={false}>
@@ -202,6 +224,40 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
+      {showBackdrop && (
+        <div className={styles.backdrop}>
+          <AnimatePresence initial={false}>
+            {showStartModal && (
+              <motion.div
+                className={styles.startModal}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                key="start game modal"
+              >
+                <h2>
+                  Your goal is to find the 3 characters shown in the header
+                </h2>
+                <form onSubmit={handleSubmit} className={styles.form}>
+                  <label htmlFor="content">
+                    Username (at least 3 characters)
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  {!pending && <button type="submit">Start</button>}
+                  {pending && <button disabled>Pending...</button>}
+                </form>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
       <div className={styles.wrapper}>
         <Header
           characters={characters}
@@ -212,7 +268,6 @@ function App() {
           <img
             src="src/img/placeholder.jpg"
             alt=""
-            onClick={handleMenu}
             className={styles.mainImage}
             ref={imageRef}
           />
