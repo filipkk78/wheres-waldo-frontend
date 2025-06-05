@@ -102,7 +102,7 @@ function App() {
   }
 
   function handleCharacter(charName) {
-    fetch("http://localhost:5000/api/character", {
+    fetch("https://wheres-waldo-backend-h812.onrender.com/api/character", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       mode: "cors",
@@ -173,7 +173,7 @@ function App() {
       return;
     }
     setPending(true);
-    fetch("http://localhost:5000/api/leaderboard", {
+    fetch("https://wheres-waldo-backend-h812.onrender.com/api/leaderboard", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username }),
@@ -197,7 +197,7 @@ function App() {
   useEffect(() => {
     if (characters.length === 0) {
       setIsGameWon(true);
-      fetch("http://localhost:5000/api/leaderboard", {
+      fetch("https://wheres-waldo-backend-h812.onrender.com/api/leaderboard", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: localStorage.getItem("sessionId") }),

@@ -7,7 +7,7 @@ function Leaderboard() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch("http://localhost:5000/api/leaderboard", {
+    fetch("https://wheres-waldo-backend-h812.onrender.com/api/leaderboard", {
       mode: "cors",
     })
       .then((response) => {
